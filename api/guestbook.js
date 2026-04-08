@@ -1,5 +1,10 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import crypto from 'crypto';
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -14,13 +19,11 @@ function hashPassword(password) {
 export default async function handler(req, res) {
   // CORS preflight
   if (req.method === 'OPTIONS') {
-    return res.status(200).json({});
+    Object.entries(CORS_HEADERS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(200).end();
   }
 
-  // Set CORS headers
-  Object.entries(CORS_HEADERS).forEach(([key, value]) => {
-    res.setHeader(key, value);
-  });
+  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.setHeader(k, v));
 
   try {
     switch (req.method) {
@@ -44,23 +47,32 @@ export default async function handler(req, res) {
  * 방명록 목록 조회 (최신순)
  */
 async function getEntries(req, res) {
-  const entries = await kv.lrange('guestbook:entries', 0, -1);
+  const ids = await redis.lrange('guestbook:entries', 0, -1);
 
-  // 각 엔트리 조회
-  const results = [];
-  for (const id of entries) {
-    const entry = await kv.hgetall(`guestbook:entry:${id}`);
-    if (entry) {
-      results.push({
-        id,
+  if (!ids || ids.length === 0) {
+    return res.status(200).json({ entries: [] });
+  }
+
+  // pipeline으로 한번에 조회
+  const pipeline = redis.pipeline();
+  for (const id of ids) {
+    pipeline.hgetall(`guestbook:entry:${id}`);
+  }
+  const results = await pipeline.exec();
+
+  const entries = results
+    .map((entry, i) => {
+      if (!entry) return null;
+      return {
+        id: ids[i],
         name: entry.name,
         message: entry.message,
         createdAt: entry.createdAt,
-      });
-    }
-  }
+      };
+    })
+    .filter(Boolean);
 
-  return res.status(200).json({ entries: results });
+  return res.status(200).json({ entries });
 }
 
 /**
@@ -82,23 +94,18 @@ async function createEntry(req, res) {
   const hashedPw = hashPassword(password);
   const now = new Date().toISOString();
 
-  // 엔트리 저장
-  await kv.hset(`guestbook:entry:${id}`, {
+  // pipeline으로 저장 + 리스트 추가를 한번에
+  const pipeline = redis.pipeline();
+  pipeline.hset(`guestbook:entry:${id}`, {
     name,
     message,
     password: hashedPw,
     createdAt: now,
   });
+  pipeline.lpush('guestbook:entries', id);
+  await pipeline.exec();
 
-  // 목록의 앞에 추가 (최신순)
-  await kv.lpush('guestbook:entries', id);
-
-  return res.status(201).json({
-    id,
-    name,
-    message,
-    createdAt: now,
-  });
+  return res.status(201).json({ id, name, message, createdAt: now });
 }
 
 /**
@@ -113,8 +120,8 @@ async function deleteEntry(req, res) {
     return res.status(400).json({ error: 'ID와 비밀번호가 필요합니다' });
   }
 
-  const entry = await kv.hgetall(`guestbook:entry:${id}`);
-  if (!entry) {
+  const entry = await redis.hgetall(`guestbook:entry:${id}`);
+  if (!entry || Object.keys(entry).length === 0) {
     return res.status(404).json({ error: '메시지를 찾을 수 없습니다' });
   }
 
@@ -123,9 +130,10 @@ async function deleteEntry(req, res) {
     return res.status(403).json({ error: '비밀번호가 일치하지 않습니다' });
   }
 
-  // 삭제
-  await kv.del(`guestbook:entry:${id}`);
-  await kv.lrem('guestbook:entries', 0, id);
+  const pipeline = redis.pipeline();
+  pipeline.del(`guestbook:entry:${id}`);
+  pipeline.lrem('guestbook:entries', 0, id);
+  await pipeline.exec();
 
   return res.status(200).json({ success: true });
 }
