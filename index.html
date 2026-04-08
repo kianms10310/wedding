@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>우리 결혼합니다</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Naver Maps -->
+  <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_NAVER_MAP_CLIENT_ID"></script>
+
+  <!-- Swiper CSS for Gallery -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- ===== HERO SECTION ===== -->
+  <section id="hero" class="section hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in">
+      <p class="hero-date">2027. 06. 05 SAT AM 11:00</p>
+      <div class="hero-divider"></div>
+      <h1 class="hero-names">
+        <span class="groom-name">신진욱</span>
+        <span class="amp">&amp;</span>
+        <span class="bride-name">봉한슬</span>
+      </h1>
+      <p class="hero-venue">루클라비 10F 라비에벨 홀</p>
+    </div>
+    <div class="scroll-indicator">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ===== INVITATION MESSAGE ===== -->
+  <section id="invitation" class="section invitation">
+    <div class="container fade-in">
+      <h2 class="section-title">초대합니다</h2>
+      <div class="invitation-text">
+        <p>
+          서로 다른 길을 걸어온 두 사람이<br>
+          이제 같은 길을 함께 걸어가려 합니다.
+        </p>
+        <p>
+          귀한 걸음 하시어<br>
+          축복해 주시면 감사하겠습니다.
+        </p>
+      </div>
+      <div class="parents-info">
+        <div class="parent-row">
+          <span class="parent-names">신흥국 · 이숙자</span>
+          <span class="parent-relation">의 아들</span>
+          <span class="child-name">진욱</span>
+        </div>
+        <div class="parent-row">
+          <span class="parent-names">봉OO · 이OO</span>
+          <span class="parent-relation">의 딸</span>
+          <span class="child-name">한슬</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CALENDAR & D-DAY ===== -->
+  <section id="calendar" class="section calendar-section">
+    <div class="container fade-in">
+      <h2 class="section-title">예식 일시</h2>
+      <div class="calendar-grid">
+        <div class="calendar-header">2027년 6월</div>
+        <div class="calendar-weekdays">
+          <span class="sun">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span class="sat">토</span>
+        </div>
+        <div class="calendar-days" id="calendarDays">
+          <!-- JS로 동적 생성 -->
+        </div>
+      </div>
+      <div class="dday-counter">
+        <p class="dday-label">결혼식까지</p>
+        <div class="dday-numbers">
+          <div class="dday-item">
+            <span class="dday-value" id="dday-days">0</span>
+            <span class="dday-unit">DAYS</span>
+          </div>
+          <div class="dday-separator">:</div>
+          <div class="dday-item">
+            <span class="dday-value" id="dday-hours">0</span>
+            <span class="dday-unit">HOURS</span>
+          </div>
+          <div class="dday-separator">:</div>
+          <div class="dday-item">
+            <span class="dday-value" id="dday-minutes">0</span>
+            <span class="dday-unit">MIN</span>
+          </div>
+          <div class="dday-separator">:</div>
+          <div class="dday-item">
+            <span class="dday-value" id="dday-seconds">0</span>
+            <span class="dday-unit">SEC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section id="gallery" class="section gallery-section">
+    <div class="container fade-in">
+      <h2 class="section-title">갤러리</h2>
+      <div class="swiper gallery-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="gallery-placeholder">
+              <span>PHOTO 1</span>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="gallery-placeholder">
+              <span>PHOTO 2</span>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="gallery-placeholder">
+              <span>PHOTO 3</span>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="gallery-placeholder">
+              <span>PHOTO 4</span>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="gallery-placeholder">
+              <span>PHOTO 5</span>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="gallery-placeholder">
+              <span>PHOTO 6</span>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LOCATION ===== -->
+  <section id="location" class="section location-section">
+    <div class="container fade-in">
+      <h2 class="section-title">오시는 길</h2>
+      <div class="venue-info">
+        <h3 class="venue-name">루클라비 10F 라비에벨 홀</h3>
+        <p class="venue-address">경기 수원시 권선구 경수대로 401</p>
+        <p class="venue-tel">Tel. 031-223-5595</p>
+      </div>
+
+      <div id="naverMap" class="map-container"></div>
+
+      <div class="direction-tabs">
+        <button class="direction-tab active" data-tab="subway">지하철</button>
+        <button class="direction-tab" data-tab="bus">버스</button>
+        <button class="direction-tab" data-tab="car">자가용</button>
+      </div>
+
+      <div class="direction-contents">
+        <div class="direction-content active" id="tab-subway">
+          <div class="direction-item">
+            <span class="transport-badge subway-7">7호선</span>
+            <p>청담역 1번 출구에서 도보 5분</p>
+          </div>
+          <div class="direction-item">
+            <span class="transport-badge subway-9">9호선</span>
+            <p>언주역 3번 출구에서 도보 10분</p>
+          </div>
+        </div>
+        <div class="direction-content" id="tab-bus">
+          <div class="direction-item">
+            <span class="transport-badge bus-blue">간선</span>
+            <p>143, 240, 301번 → 청담사거리 하차</p>
+          </div>
+          <div class="direction-item">
+            <span class="transport-badge bus-green">지선</span>
+            <p>3414, 4412번 → 청담역 하차</p>
+          </div>
+        </div>
+        <div class="direction-content" id="tab-car">
+          <div class="direction-item">
+            <p>네비게이션에 <strong>"더채플앳청담"</strong> 검색</p>
+          </div>
+          <div class="direction-item">
+            <p>건물 내 지하 주차장 이용 가능 (2시간 무료)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACCOUNT (마음 전하기) ===== -->
+  <section id="account" class="section account-section">
+    <div class="container fade-in">
+      <h2 class="section-title">마음 전하기</h2>
+      <p class="account-desc">축하의 마음을 전해주세요</p>
+
+      <div class="account-group">
+        <button class="account-toggle" data-target="groom-accounts">
+          <span>신랑측 계좌번호</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <div class="account-list" id="groom-accounts">
+          <div class="account-item">
+            <div class="account-info">
+              <span class="account-bank">카카오뱅크</span>
+              <span class="account-number">1234-56-7890123</span>
+              <span class="account-holder">신진욱</span>
+            </div>
+            <button class="copy-btn" data-clipboard="1234567890123">복사</button>
+          </div>
+          <div class="account-item">
+            <div class="account-info">
+              <span class="account-bank">국민은행</span>
+              <span class="account-number">123-456-789012</span>
+              <span class="account-holder">신OO (부)</span>
+            </div>
+            <button class="copy-btn" data-clipboard="123456789012">복사</button>
+          </div>
+          <div class="account-item">
+            <div class="account-info">
+              <span class="account-bank">신한은행</span>
+              <span class="account-number">123-456-789012</span>
+              <span class="account-holder">김OO (모)</span>
+            </div>
+            <button class="copy-btn" data-clipboard="123456789012">복사</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-group">
+        <button class="account-toggle" data-target="bride-accounts">
+          <span>신부측 계좌번호</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <div class="account-list" id="bride-accounts">
+          <div class="account-item">
+            <div class="account-info">
+              <span class="account-bank">카카오뱅크</span>
+              <span class="account-number">1234-56-7890123</span>
+              <span class="account-holder">봉한슬</span>
+            </div>
+            <button class="copy-btn" data-clipboard="1234567890123">복사</button>
+          </div>
+          <div class="account-item">
+            <div class="account-info">
+              <span class="account-bank">우리은행</span>
+              <span class="account-number">123-456-789012</span>
+              <span class="account-holder">김OO (부)</span>
+            </div>
+            <button class="copy-btn" data-clipboard="123456789012">복사</button>
+          </div>
+          <div class="account-item">
+            <div class="account-info">
+              <span class="account-bank">하나은행</span>
+              <span class="account-number">123-456-789012</span>
+              <span class="account-holder">이OO (모)</span>
+            </div>
+            <button class="copy-btn" data-clipboard="123456789012">복사</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GUESTBOOK ===== -->
+  <section id="guestbook" class="section guestbook-section">
+    <div class="container fade-in">
+      <h2 class="section-title">방명록</h2>
+      <p class="guestbook-desc">축하 메시지를 남겨주세요</p>
+
+      <form id="guestbookForm" class="guestbook-form">
+        <div class="form-row">
+          <input type="text" id="gbName" placeholder="이름" maxlength="20" required>
+          <input type="password" id="gbPassword" placeholder="비밀번호" maxlength="20" required>
+        </div>
+        <textarea id="gbMessage" placeholder="축하 메시지를 작성해주세요" maxlength="500" required></textarea>
+        <button type="submit" class="submit-btn">등록하기</button>
+      </form>
+
+      <div id="guestbookList" class="guestbook-list">
+        <!-- JS로 동적 로딩 -->
+      </div>
+      <div id="guestbookLoading" class="guestbook-loading" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>신진욱 &hearts; 봉한슬</p>
+    <p class="footer-date">2027. 06. 05</p>
+  </footer>
+
+  <!-- Lightbox for Gallery -->
+  <div id="lightbox" class="lightbox" style="display:none;">
+    <button class="lightbox-close">&times;</button>
+    <div class="lightbox-content">
+      <img id="lightboxImg" src="" alt="">
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
