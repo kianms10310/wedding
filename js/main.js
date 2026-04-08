@@ -1,9 +1,9 @@
 /* ===== CONFIGURATION ===== */
 const CONFIG = {
-  weddingDate: new Date('2026-06-20T14:00:00+09:00'),
-  weddingYear: 2026,
+  weddingDate: new Date('2027-06-05T11:00:00+09:00'),
+  weddingYear: 2027,
   weddingMonth: 6,  // 1-indexed
-  weddingDay: 20,
+  weddingDay: 5,
   // Vercel API base URL - 배포 후 변경하세요
   apiBaseUrl: '/api',
   // Naver Map 좌표 (예시: 청담동 부근)
