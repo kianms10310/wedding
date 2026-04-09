@@ -8,8 +8,9 @@ const address = '경기 수원시 권선구 경수대로 401'
 const venueName = '루클라비 수원 라비에벨 홀'
 
 const transports = [
-  { key: 'subway', label: '지하철', icon: '🚇', text: '수인분당선 수원시청역 5번 출구 → 도보 약 10분 혹은 셔틀버스' },
-  { key: 'car', label: '자가용', icon: '🚗', text: '루클라비 수원 주차장 이용\n(주차 2시간 무료)' },
+  { key: 'subway', label: '지하철', icon: '🚇', text: '< 수원시청역 5번 출구 >\n* 도보 이용시 : 5번 출구에서 직진 후 TG2 맞춤정장 매장 앞 사거리 횡단보도를 건넌 후 좌측\n* 셔틀버스 : 5번 출구 앞 승차 (예식 당일 5-7분 간격 운행)' },
+  { key: 'bus', label: '버스', icon: '🚌', text: '< KT남수원지사 하차 >\n* 일반버스 : 81, 300-1 \n* 좌석버스 : 300\n\n< 권선초등학교 하차 >\n* 일반버스 : 92, 92-1' },
+  { key: 'car', label: '자가용', icon: '🚗', text: '< 주차장 안내 >\n* 제1주차장 : KT 남수원지사주차장\n* 제2주차장 : 한화생명 주차장 \n※ 주차 요원의 안내를 받으세요.' },
 ]
 
 export default function LocationSection() {
