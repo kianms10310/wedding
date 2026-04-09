@@ -1,6 +1,6 @@
+'use client'
 import { useState } from 'react'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
-import { getSupabase } from '../lib/supabase'
 
 const serif = "'Noto Serif KR', serif"
 const pill = (on: boolean): React.CSSProperties => ({
@@ -14,19 +14,39 @@ export default function RsvpSection() {
   const [f, setF] = useState({ name: '', side: 'groom', att: true, count: 1, msg: '' })
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('rsvp submit clicked', f)
     if (!f.name.trim()) return
     setLoading(true)
+    setErrMsg('')
     try {
-      const sb = getSupabase()
-      const { error } = await sb.from('rsvps').insert([{
-        name: f.name.trim(), side: f.side, attendance: f.att,
-        guest_count: f.count, message: f.msg || null,
-      }])
-      if (!error) { setDone(true); setTimeout(() => setDone(false), 4000); setF({ name: '', side: 'groom', att: true, count: 1, msg: '' }) }
-    } catch { /* */ } finally { setLoading(false) }
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: f.name.trim(),
+          side: f.side,
+          attendance: f.att,
+          guest_count: f.count,
+          message: f.msg || null,
+        }),
+      })
+      console.log('rsvp response status:', res.status)
+      if (!res.ok) {
+        const err = await res.json()
+        console.error('rsvp insert error:', err)
+        setErrMsg('전송에 실패했습니다. 잠시 후 다시 시도해주세요.')
+      } else {
+        setDone(true); setTimeout(() => setDone(false), 4000)
+        setF({ name: '', side: 'groom', att: true, count: 1, msg: '' })
+      }
+    } catch (err) {
+      console.error('rsvp insert exception:', err)
+      setErrMsg('서버 연결에 실패했습니다.')
+    } finally { setLoading(false) }
   }
 
   if (done) return (
@@ -57,7 +77,7 @@ export default function RsvpSection() {
           <label style={{ fontSize: 11, color: '#B8956A', display: 'block', marginBottom: 8 }}>성함</label>
           <input type="text" value={f.name} onChange={e => setF(p => ({ ...p, name: e.target.value }))}
             placeholder="이름을 입력해주세요" required
-            style={{ width: '100%', padding: '10px 0', border: 'none', borderBottom: '1px solid #E0D8D0', outline: 'none', fontSize: 14, color: '#3D3D3D', background: 'transparent' }} />
+            style={{ width: '100%', padding: '10px 0', border: 'none', borderBottom: '1px solid #E0D8D0', outline: 'none', fontSize: 14, color: '#3D3D3D', background: 'transparent', boxSizing: 'border-box' }} />
         </div>
 
         <div>
@@ -93,7 +113,7 @@ export default function RsvpSection() {
           <label style={{ fontSize: 11, color: '#B8956A', display: 'block', marginBottom: 8 }}>축하 메시지 (선택)</label>
           <textarea value={f.msg} onChange={e => setF(p => ({ ...p, msg: e.target.value }))}
             placeholder="한마디 남겨주세요" rows={3}
-            style={{ width: '100%', padding: 12, border: '1px solid #E0D8D0', borderRadius: 12, outline: 'none', fontSize: 13, color: '#3D3D3D', resize: 'none', background: '#FAF8F5', lineHeight: 1.6 }} />
+            style={{ width: '100%', padding: 12, border: '1px solid #E0D8D0', borderRadius: 12, outline: 'none', fontSize: 13, color: '#3D3D3D', resize: 'none', background: '#FAF8F5', lineHeight: 1.6, boxSizing: 'border-box' }} />
         </div>
 
         <button type="submit" disabled={loading || !f.name.trim()} style={{
@@ -101,6 +121,7 @@ export default function RsvpSection() {
           background: '#D4A0A0', color: '#fff', fontSize: 14, fontWeight: 500,
           opacity: loading || !f.name.trim() ? 0.5 : 1, transition: 'all 0.2s',
         }}>{loading ? '전송 중...' : '참석 여부 전달'}</button>
+        {errMsg && <p style={{ fontSize: 12, color: '#D4A0A0', marginTop: 12, textAlign: 'center' }}>{errMsg}</p>}
       </form>
     </section>
   )

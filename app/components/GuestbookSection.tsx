@@ -1,9 +1,12 @@
+'use client'
 import { useState, useEffect } from 'react'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
-import { getSupabase } from '../lib/supabase'
-import type { GuestbookEntry } from '../lib/supabase'
 
 const serif = "'Noto Serif KR', serif"
+
+interface GuestbookEntry {
+  id?: number; name: string; message: string; created_at?: string
+}
 
 function timeAgo(d: string) {
   const m = Math.floor((Date.now() - new Date(d).getTime()) / 60000)
@@ -20,24 +23,49 @@ export default function GuestbookSection() {
   const [name, setName] = useState('')
   const [msg, setMsg] = useState('')
   const [loading, setLoading] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
 
   const load = async () => {
     try {
-      const { data } = await getSupabase().from('guestbook').select('*').order('created_at', { ascending: false })
-      if (data) setEntries(data)
-    } catch { /* */ }
+      const res = await fetch('/api/guestbook')
+      if (!res.ok) {
+        const err = await res.json()
+        console.error('guestbook load error:', err)
+        return
+      }
+      const data = await res.json()
+      setEntries(data)
+    } catch (err) {
+      console.error('guestbook load exception:', err)
+    }
   }
 
   useEffect(() => { load() }, [])
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('guestbook submit clicked', { name, msg })
     if (!name.trim() || !msg.trim()) return
     setLoading(true)
+    setErrMsg('')
     try {
-      const { error } = await getSupabase().from('guestbook').insert([{ name: name.trim(), message: msg.trim() }])
-      if (!error) { setName(''); setMsg(''); load() }
-    } catch { /* */ } finally { setLoading(false) }
+      const res = await fetch('/api/guestbook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), message: msg.trim() }),
+      })
+      console.log('guestbook response status:', res.status)
+      if (!res.ok) {
+        const err = await res.json()
+        console.error('guestbook insert error:', err)
+        setErrMsg('메시지 등록에 실패했습니다. 잠시 후 다시 시도해주세요.')
+      } else {
+        setName(''); setMsg(''); load()
+      }
+    } catch (err) {
+      console.error('guestbook insert exception:', err)
+      setErrMsg('서버 연결에 실패했습니다.')
+    } finally { setLoading(false) }
   }
 
   return (
@@ -57,14 +85,15 @@ export default function GuestbookSection() {
       }}>
         <input type="text" value={name} onChange={e => setName(e.target.value)}
           placeholder="이름" required
-          style={{ width: '100%', padding: '10px 0', border: 'none', borderBottom: '1px solid #E0D8D0', outline: 'none', fontSize: 13, color: '#3D3D3D', background: 'transparent', marginBottom: 12 }} />
+          style={{ width: '100%', padding: '10px 0', border: 'none', borderBottom: '1px solid #E0D8D0', outline: 'none', fontSize: 13, color: '#3D3D3D', background: 'transparent', marginBottom: 12, boxSizing: 'border-box' }} />
         <textarea value={msg} onChange={e => setMsg(e.target.value)}
           placeholder="축하의 말씀을 남겨주세요" required rows={3}
-          style={{ width: '100%', padding: 12, border: '1px solid #E0D8D0', borderRadius: 12, outline: 'none', fontSize: 13, color: '#3D3D3D', resize: 'none', background: '#FAF8F5', lineHeight: 1.6, marginBottom: 12 }} />
+          style={{ width: '100%', padding: 12, border: '1px solid #E0D8D0', borderRadius: 12, outline: 'none', fontSize: 13, color: '#3D3D3D', resize: 'none', background: '#FAF8F5', lineHeight: 1.6, marginBottom: 12, boxSizing: 'border-box' }} />
         <button type="submit" disabled={loading} style={{
           width: '100%', padding: '12px 0', borderRadius: 24, border: 'none', cursor: 'pointer',
           background: '#D4A0A0', color: '#fff', fontSize: 13, fontWeight: 500, opacity: loading ? 0.5 : 1,
         }}>{loading ? '등록 중...' : '메시지 남기기'}</button>
+        {errMsg && <p style={{ fontSize: 12, color: '#D4A0A0', marginTop: 12, textAlign: 'center' }}>{errMsg}</p>}
       </form>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

@@ -1,8 +1,8 @@
+'use client'
 import { useState, useEffect, useRef } from 'react'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
 const VENUE_LAT = 37.5373, VENUE_LNG = 126.9987
-const NAVER_MAP_ID = import.meta.env.VITE_NAVER_MAP_CLIENT_ID
 const serif = "'Noto Serif KR', serif"
 const address = '서울특별시 용산구 소월로 322'
 const venueName = '그랜드 하얏트 서울 그랜드볼룸'
@@ -19,24 +19,29 @@ export default function LocationSection() {
   const [openT, setOpenT] = useState<string | null>(null)
   const [mapOk, setMapOk] = useState(false)
   const mapRef = useRef<HTMLDivElement>(null)
+  const naverMapId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID || null
 
   useEffect(() => {
-    if (!NAVER_MAP_ID) return
-    if (document.getElementById('naver-map-sdk')) { if ((window as any).naver?.maps) setMapOk(true); return }
+    if (!naverMapId) return
+    if (document.getElementById('naver-map-sdk')) { if ((window as unknown as Record<string, unknown>).naver) setMapOk(true); return }
     const s = document.createElement('script')
     s.id = 'naver-map-sdk'
-    s.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${NAVER_MAP_ID}`
+    s.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${naverMapId}`
     s.async = true
     s.onload = () => setMapOk(true)
     document.head.appendChild(s)
-  }, [])
+  }, [naverMapId])
 
   useEffect(() => {
     if (!mapOk || !mapRef.current) return
-    const naver = (window as any).naver
-    const loc = new naver.maps.LatLng(VENUE_LAT, VENUE_LNG)
-    const map = new naver.maps.Map(mapRef.current, { center: loc, zoom: 16, zoomControl: true, zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT } })
-    new naver.maps.Marker({ position: loc, map })
+    const naver = (window as unknown as Record<string, unknown>).naver as Record<string, unknown>
+    const maps = naver.maps as Record<string, unknown>
+    const LatLng = maps.LatLng as new (lat: number, lng: number) => unknown
+    const MapClass = maps.Map as new (el: HTMLElement, opts: unknown) => unknown
+    const MarkerClass = maps.Marker as new (opts: unknown) => unknown
+    const loc = new LatLng(VENUE_LAT, VENUE_LNG)
+    const map = new MapClass(mapRef.current!, { center: loc, zoom: 16, zoomControl: true })
+    new MarkerClass({ position: loc, map })
   }, [mapOk])
 
   const copyAddr = async () => { await navigator.clipboard.writeText(address); setCopied(true); setTimeout(() => setCopied(false), 2000) }
@@ -58,7 +63,7 @@ export default function LocationSection() {
         <p style={{ fontSize: 13, color: '#999', fontWeight: 300, margin: 0 }}>{address}</p>
       </div>
 
-      {NAVER_MAP_ID ? (
+      {naverMapId ? (
         <div ref={mapRef} style={{ width: '100%', height: 240, borderRadius: 16, marginBottom: 12 }} />
       ) : (
         <div onClick={openMap} style={{

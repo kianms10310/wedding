@@ -1,3 +1,4 @@
+'use client'
 import { useRef, useState } from 'react'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 const serif = "'Noto Serif KR', serif"

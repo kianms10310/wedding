@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react'
 
 const WEDDING = new Date('2026-05-30T14:00:00+09:00')

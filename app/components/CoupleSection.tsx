@@ -1,3 +1,4 @@
+'use client'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 const serif = "'Noto Serif KR', serif"
 

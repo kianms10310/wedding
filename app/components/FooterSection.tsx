@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 const serif = "'Noto Serif KR', serif"
@@ -48,7 +49,6 @@ export default function FooterSection() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 32 }}>
           {sides.map((side) => (
             <div key={side.id} style={{ borderRadius: 12, overflow: 'hidden', background: '#4a4a4a' }}>
-              {/* 아코디언 헤더 */}
               <button onClick={() => setOpen(open === side.id ? null : side.id)} style={{
                 width: '100%', padding: '14px 16px', border: 'none', cursor: 'pointer', background: 'transparent',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#E0D8D0', fontSize: 13,
@@ -57,7 +57,6 @@ export default function FooterSection() {
                 <span style={{ fontSize: 18, color: '#B8956A', transition: 'transform 0.2s', transform: open === side.id ? 'rotate(45deg)' : 'none' }}>+</span>
               </button>
 
-              {/* 아코디언 내용: 계좌 목록 */}
               {open === side.id && (
                 <div style={{ padding: '0 12px 12px', borderTop: '1px solid rgba(184,149,106,0.2)' }}>
                   {side.accounts.map((acc, i) => {
@@ -67,18 +66,16 @@ export default function FooterSection() {
                         padding: '14px 12px', marginTop: 10,
                         background: '#3D3D3D', borderRadius: 8,
                       }}>
-                        {/* 관계 태그 */}
                         <span style={{
                           display: 'inline-block', fontSize: 10, color: '#FAF8F5',
                           background: side.id === 'groom' ? '#B8956A' : '#D4A0A0',
                           borderRadius: 4, padding: '2px 8px', marginBottom: 10,
                         }}>{acc.relation}</span>
 
-                        {/* 계좌 정보 */}
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <div>
                             <p style={{ fontSize: 12, color: '#999', margin: '0 0 4px' }}>{acc.bank}</p>
-                            <p style={{ fontSize: 14, color: '#FAF8F5', margin: '0 0 4px', fontVariantNumeric: 'tabular-nums' as const }}>{acc.num}</p>
+                            <p style={{ fontSize: 14, color: '#FAF8F5', margin: '0 0 4px', fontVariantNumeric: 'tabular-nums' }}>{acc.num}</p>
                             <p style={{ fontSize: 12, color: '#B8956A', margin: 0 }}>{acc.holder}</p>
                           </div>
                           <button onClick={() => copy(acc.num, key)} style={{

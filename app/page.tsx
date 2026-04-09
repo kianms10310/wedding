@@ -1,3 +1,4 @@
+'use client'
 import HeroSection from './components/HeroSection'
 import CoupleSection from './components/CoupleSection'
 import GallerySection from './components/GallerySection'
@@ -7,7 +8,7 @@ import RsvpSection from './components/RsvpSection'
 import GuestbookSection from './components/GuestbookSection'
 import FooterSection from './components/FooterSection'
 
-export default function App() {
+export default function Home() {
   return (
     <div style={{
       maxWidth: 480,
