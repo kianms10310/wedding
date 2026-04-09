@@ -28,7 +28,7 @@ export default function CalendarSection() {
         <div style={{ width: 32, height: 1, background: 'linear-gradient(to left, transparent, #B8956A)' }} />
       </div>
 
-      <p style={{ fontFamily: serif, fontSize: 16, color: '#6B6B6B', marginBottom: 20, fontWeight: 300 }}>2026년 5월</p>
+      <p style={{ fontFamily: serif, fontSize: 16, color: '#6B6B6B', marginBottom: 20, fontWeight: 300 }}>2027년 6월</p>
 
       <div style={{ background: '#fff', borderRadius: 16, padding: '20px 16px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)', maxWidth: 360, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: 8 }}>
@@ -56,8 +56,8 @@ export default function CalendarSection() {
       </div>
 
       <div style={{ marginTop: 24 }}>
-        <p style={{ fontFamily: serif, fontSize: 14, color: '#6B6B6B', fontWeight: 300, margin: 0 }}>2026년 5월 30일 토요일 오후 2시</p>
-        <p style={{ fontSize: 13, color: '#999', fontWeight: 300, marginTop: 4 }}>그랜드 하얏트 서울 그랜드볼룸</p>
+        <p style={{ fontFamily: serif, fontSize: 14, color: '#6B6B6B', fontWeight: 300, margin: 0 }}>2027년 6월 5일 토요일 오전 11시</p>
+        <p style={{ fontSize: 13, color: '#999', fontWeight: 300, marginTop: 4 }}>루클라비 수원 라비에벨 홀</p>
       </div>
     </section>
   )

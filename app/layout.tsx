@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "진욱 ♥ 신부이름 결혼합니다",
-  description: "2026년 5월 30일 토요일 오후 2시, 그랜드 하얏트 서울 그랜드볼룸",
+  title: "진욱 ♥ 한슬 결혼합니다",
+  description: "2027년 6월 5일 토요일 오전 11시, 루클라비 수원 라비에벨 홀",
   openGraph: {
-    title: "진욱 ♥ 신부이름 결혼합니다",
-    description: "2026년 5월 30일 토요일 오후 2시",
+    title: "진욱 ♥ 한슬 결혼합니다",
+    description: "2027년 6월 5일 토요일 오전 11시",
     type: "website",
   },
 };

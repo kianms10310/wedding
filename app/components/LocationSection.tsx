@@ -4,13 +4,12 @@ import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
 const VENUE_LAT = 37.5373, VENUE_LNG = 126.9987
 const serif = "'Noto Serif KR', serif"
-const address = '서울특별시 용산구 소월로 322'
-const venueName = '그랜드 하얏트 서울 그랜드볼룸'
+const address = '경기 수원시 권선구 경수대로 401'
+const venueName = '루클라비 수원 라비에벨 홀'
 
 const transports = [
-  { key: 'subway', label: '지하철', icon: '🚇', text: '6호선 녹사평역 3번 출구 → 도보 약 5분' },
-  { key: 'bus', label: '버스', icon: '🚌', text: '강남행 버스 이용 → 하얏트호텔 정류장 하차' },
-  { key: 'car', label: '자가용', icon: '🚗', text: '그랜드 하얏트 서울 지하 주차장 이용\n(주차 2시간 무료)' },
+  { key: 'subway', label: '지하철', icon: '🚇', text: '수인분당선 수원시청역 5번 출구 → 도보 약 10분 혹은 셔틀버스' },
+  { key: 'car', label: '자가용', icon: '🚗', text: '루클라비 수원 주차장 이용\n(주차 2시간 무료)' },
 ]
 
 export default function LocationSection() {
@@ -45,7 +44,7 @@ export default function LocationSection() {
   }, [mapOk])
 
   const copyAddr = async () => { await navigator.clipboard.writeText(address); setCopied(true); setTimeout(() => setCopied(false), 2000) }
-  const openMap = () => window.open(`https://map.naver.com/v5/search/${encodeURIComponent(venueName)}`, '_blank')
+  const openMap = () => window.open(`https://map.naver.com/p/entry/place/1224030066?placePath=%2Fhome`, '_blank')
 
   return (
     <section ref={ref} className={`scroll-fade ${visible ? 'visible' : ''}`} style={{ padding: '64px 24px', background: '#FAF8F5' }}>

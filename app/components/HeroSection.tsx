@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-const WEDDING = new Date('2026-05-30T14:00:00+09:00')
+const WEDDING = new Date('2027-06-05T11:00:00+09:00')
 const serif = "'Noto Serif KR', serif"
 
 function getTimeLeft() {
@@ -39,15 +39,15 @@ export default function HeroSection() {
         <div style={{ width: 40, height: 1, background: '#D4A0A0' }} />
       </div>
       <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 36, color: '#3D3D3D', lineHeight: 1.5, margin: 0 }}>
-        신부이름
+        봉한슬
       </h1>
 
       <div style={{ marginTop: 36, lineHeight: 2 }}>
         <p style={{ fontSize: 15, color: '#6B6B6B', fontWeight: 300, margin: 0 }}>
-          2026. 05. 30 토요일 오후 2시
+          2027. 06. 05 토요일 오전 11시
         </p>
         <p style={{ fontSize: 13, color: '#999', fontWeight: 300, margin: 0 }}>
-          그랜드 하얏트 서울 그랜드볼룸
+          루클라비 수원 라비에벨 홀
         </p>
       </div>
 

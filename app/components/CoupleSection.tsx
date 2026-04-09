@@ -29,8 +29,8 @@ export default function CoupleSection() {
 
       <div style={{ marginTop: 40, display: 'flex', gap: 12 }}>
         {[
-          { label: '신랑측', color: '#B8956A', father: '신OO', mother: 'OOO', name: '진욱' },
-          { label: '신부측', color: '#D4A0A0', father: 'OOO', mother: 'OOO', name: 'OO' },
+          { label: '신랑측', color: '#B8956A', father: '신흥국', mother: '이숙자', name: '진욱' },
+          { label: '신부측', color: '#D4A0A0', father: '봉만식', mother: '김향연', name: '한슬' },
         ].map((s) => (
           <div key={s.label} style={{
             flex: 1, background: '#fff', borderRadius: 12, padding: '24px 16px',

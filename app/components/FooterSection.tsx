@@ -11,16 +11,16 @@ const sides: Side[] = [
     id: 'groom', label: '신랑측',
     accounts: [
       { relation: '신랑', bank: '신한은행', num: '110-225-3800345', holder: '신진욱' },
-      { relation: '아버지', bank: '국민은행', num: '123-456-789012', holder: '신OO' },
-      { relation: '어머니', bank: '하나은행', num: '987-654-321098', holder: 'OOO' },
+      { relation: '아버지', bank: '국민은행', num: '123-456-789012', holder: '신흥국' },
+      { relation: '어머니', bank: '하나은행', num: '987-654-321098', holder: '이숙자' },
     ],
   },
   {
     id: 'bride', label: '신부측',
     accounts: [
-      { relation: '신부', bank: '우리은행', num: '1002-456-789012', holder: '신부이름' },
-      { relation: '아버지', bank: '기업은행', num: '111-222-333444', holder: 'OOO' },
-      { relation: '어머니', bank: '농협은행', num: '555-666-777888', holder: 'OOO' },
+      { relation: '신부', bank: '우리은행', num: '1002-456-789012', holder: '봉한슬' },
+      { relation: '아버지', bank: '기업은행', num: '111-222-333444', holder: '봉만식' },
+      { relation: '어머니', bank: '농협은행', num: '555-666-777888', holder: '김향연' },
     ],
   },
 ]
@@ -100,7 +100,7 @@ export default function FooterSection() {
 
         <div style={{ textAlign: 'center', paddingTop: 24, borderTop: '1px solid rgba(184,149,106,0.15)' }}>
           <p style={{ fontSize: 11, color: 'rgba(250,248,245,0.4)', margin: 0, lineHeight: 2 }}>
-            진욱 ♥ 신부이름<br />2026. 05. 30
+            진욱 ♥ 한슬<br />2027. 06. 05
           </p>
         </div>
       </div>
