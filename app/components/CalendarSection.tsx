@@ -4,8 +4,8 @@ const serif = "'Noto Serif KR', serif"
 
 export default function CalendarSection() {
   const { ref, visible } = useScrollFadeIn()
-  const firstDay = new Date(2026, 4, 1).getDay()
-  const daysInMonth = 31
+  const firstDay = new Date(2027, 5, 29).getDay()
+  const daysInMonth = 30
   const weeks: (number | null)[][] = []
   let day = 1
   for (let w = 0; w < 6 && day <= daysInMonth; w++) {
@@ -39,7 +39,7 @@ export default function CalendarSection() {
         {weeks.map((week, wi) => (
           <div key={wi} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
             {week.map((d, di) => {
-              const isW = d === 30
+              const isW = d === 5
               return (
                 <div key={di} style={{ padding: '8px 0', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {isW && <div style={{ position: 'absolute', width: 36, height: 36, borderRadius: '50%', background: '#D4A0A0' }} />}
