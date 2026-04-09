@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
-const VENUE_LAT = 37.5373, VENUE_LNG = 126.9987
+const VENUE_LAT = 37.2625484, VENUE_LNG = 127.0242063
 const serif = "'Noto Serif KR', serif"
 const address = '경기 수원시 권선구 경수대로 401'
 const venueName = '루클라비 수원 라비에벨 홀'
@@ -26,7 +26,7 @@ export default function LocationSection() {
     if (document.getElementById('naver-map-sdk')) { if ((window as unknown as Record<string, unknown>).naver) setMapOk(true); return }
     const s = document.createElement('script')
     s.id = 'naver-map-sdk'
-    s.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${naverMapId}`
+    s.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverMapId}`
     s.async = true
     s.onload = () => setMapOk(true)
     document.head.appendChild(s)
