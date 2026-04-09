@@ -16,8 +16,13 @@ function getTimeLeft() {
 }
 
 export default function HeroSection() {
-  const [time, setTime] = useState(getTimeLeft())
-  useEffect(() => { const id = setInterval(() => setTime(getTimeLeft()), 1000); return () => clearInterval(id) }, [])
+  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null)
+
+  useEffect(() => {
+    setTime(getTimeLeft())  // 클라이언트에서만 초기값 세팅
+    const id = setInterval(() => setTime(getTimeLeft()), 1000)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <section style={{
@@ -55,15 +60,15 @@ export default function HeroSection() {
         <p style={{ fontSize: 11, letterSpacing: 4, color: '#B8956A', marginBottom: 16 }}>예식까지 남은 시간</p>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
           {[
-            { v: time.d, l: 'DAYS' }, { v: time.h, l: 'HRS' },
-            { v: time.m, l: 'MIN' }, { v: time.s, l: 'SEC' },
+            { v: time?.d ?? '--', l: 'DAYS' }, { v: time?.h ?? '--', l: 'HRS' },
+            { v: time?.m ?? '--', l: 'MIN' }, { v: time?.s ?? '--', l: 'SEC' },
           ].map((item) => (
             <div key={item.l} style={{
               width: 64, padding: '14px 0 10px', background: 'rgba(255,255,255,0.7)',
               borderRadius: 12, textAlign: 'center',
             }}>
               <div style={{ fontFamily: serif, fontSize: 24, fontWeight: 300, color: '#3D3D3D' }}>
-                {String(item.v).padStart(2, '0')}
+                {typeof item.v === 'number' ? String(item.v).padStart(2, '0') : item.v}
               </div>
               <div style={{ fontSize: 9, letterSpacing: 2, color: '#B8956A', marginTop: 4 }}>{item.l}</div>
             </div>
