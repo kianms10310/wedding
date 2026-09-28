@@ -3,33 +3,25 @@ import { NextResponse } from 'next/server'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET, 
 })
 
 export async function GET() {
-  const PUBLIC_IDS = [
-    'wedding1',
-    'KakaoTalk_20260928_161605_kksaxi',
-    'wedding1',
-    'wedding1',
-    'wedding1',
-    'wedding1',
-    'wedding1',
-    'wedding1',
-    'wedding1',
-    'KakaoTalk_20260928_161605_kksaxi',
-    'KakaoTalk_20260928_161605_kksaxi1'
+  const PHOTO_FILES = [
+    'wedding1.jpg',
+    'KakaoTalk_20260928_161605_kksaxi.jpg',
+    'wedding1.jpg',
+    'wedding1.jpg',
+    'wedding1.jpg',
+    'wedding1.jpg',
+    'wedding1.jpg',
+    'wedding1.jpg',
+    'wedding1.jpg',
+    'KakaoTalk_20260928_161605_kksaxi.jpg',
   ]
 
-  const signedUrls = PUBLIC_IDS.map((publicId) =>
-    cloudinary.url(publicId, {
-      width: 600,
-      crop: 'fill',
-      quality: 'auto',
-      fetch_format: 'auto'
-    })
+  const urls = PHOTO_FILES.map((filename) =>
+    cloudinary.url(filename, { secure: true })
   )
 
-  return NextResponse.json(signedUrls)
+  return NextResponse.json(urls)
 }
