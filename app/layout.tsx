@@ -5,9 +5,17 @@ export const metadata: Metadata = {
   description: "2027년 6월 5일 토요일 오전 11시, 루클라비 수원 라비에벨 홀",
   openGraph: {
     title: "진욱 ♥ 한슬 결혼합니다",
-    description: "2027년 6월 5일 토요일 오전 11시",
+    description: "2027년 6월 5일 토요일 오전 11시, 루클라비 수원 라비에벨 홀",
     type: "website",
+    siteName: "진욱 ♥ 한슬의 모바일 청첩장",
+    images: [{
+      url: "https://res.cloudinary.com/dhtvrg2js/image/upload/c_fill,f_jpg,g_auto,h_630,q_auto,w_1200/v1775724820/wedding1.jpg",
+      width: 1200,
+      height: 630,
+      alt: "진욱과 한슬의 결혼식 청첩장",
+    }],
   },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

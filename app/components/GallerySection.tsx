@@ -7,15 +7,15 @@ const serif = "'Noto Serif KR', serif"
 
 export default function GallerySection() {
   const { ref, visible } = useScrollFadeIn()
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const [cur, setCur] = useState(0)
   const [images, setImages] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
+  const [expanded, setExpanded] = useState(false)
 
   // 모달 상태
   const [modalOpen, setModalOpen] = useState(false)
   const [modalIdx, setModalIdx] = useState(0)
   const touchStartX = useRef<number | null>(null)
+  const mouseStartX = useRef<number | null>(null)
 
   useEffect(() => {
     fetch('/api/gallery')
@@ -59,16 +59,17 @@ export default function GallerySection() {
     touchStartX.current = null
   }
 
-  const onScroll = () => {
-    if (!scrollRef.current) return
-    const idx = Math.round(scrollRef.current.scrollLeft / (scrollRef.current.offsetWidth * 0.78))
-    setCur(idx)
+  const onModalPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return
+    mouseStartX.current = e.clientX
+    e.currentTarget.setPointerCapture(e.pointerId)
   }
 
-  const goTo = (i: number) => {
-    if (!scrollRef.current) return
-    scrollRef.current.scrollTo({ left: scrollRef.current.offsetWidth * 0.78 * i, behavior: 'smooth' })
-    setCur(i)
+  const onModalPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (mouseStartX.current === null) return
+    const diff = mouseStartX.current - e.clientX
+    mouseStartX.current = null
+    if (Math.abs(diff) > 50) diff > 0 ? modalNext() : modalPrev()
   }
 
   return (
@@ -92,10 +93,10 @@ export default function GallerySection() {
 
         {/* 로딩 shimmer */}
         {loading && (
-          <div style={{ display: 'flex', gap: 12, padding: '0 24px' }}>
-            {[...Array(3)].map((_, i) => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: '0 24px' }}>
+            {[...Array(9)].map((_, i) => (
               <div key={i} style={{
-                flex: '0 0 78%', aspectRatio: '3/4', borderRadius: 16,
+                aspectRatio: '1', borderRadius: 8,
                 background: 'linear-gradient(90deg, #EDE8E3 25%, #E4DED8 50%, #EDE8E3 75%)',
                 backgroundSize: '200% 100%',
                 animation: 'shimmer 1.5s infinite',
@@ -104,33 +105,23 @@ export default function GallerySection() {
           </div>
         )}
 
-        {/* 이미지 슬라이더 */}
+        {/* 이미지 그리드 */}
         {!loading && images.length > 0 && (
           <>
             <div
-              ref={scrollRef}
-              onScroll={onScroll}
-              className="no-scrollbar"
-              style={{ display: 'flex', gap: 12, overflowX: 'auto', scrollSnapType: 'x mandatory', padding: '0 24px' }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: '0 24px' }}
             >
-              {images.map((url, i) => (
-                <div
+              {(expanded ? images : images.slice(0, 9)).map((url, i) => (
+                <button
                   key={i}
+                  type="button"
+                  aria-label={`웨딩 사진 ${i + 1} 크게 보기`}
                   onClick={() => openModal(i)}
                   style={{
-                    flex: '0 0 78%', scrollSnapAlign: 'start', aspectRatio: '3/4', borderRadius: 16,
-                    overflow: 'hidden', position: 'relative',
+                    aspectRatio: '1', borderRadius: 8, border: 'none', padding: 0,
+                    overflow: 'hidden', position: 'relative', background: '#EDE8E3',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
                     cursor: 'zoom-in',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.02)'
-                    ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'
-                    ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'
                   }}
                 >
                   <Image
@@ -138,23 +129,19 @@ export default function GallerySection() {
                     alt={`웨딩 사진 ${i + 1}`}
                     fill
                     style={{ objectFit: 'cover' }}
-                    sizes="78vw"
-                    priority={i === 0}
+                    sizes="(max-width: 480px) 30vw, 140px"
                   />
-                </div>
+                </button>
               ))}
             </div>
 
-            {/* 페이지 인디케이터 */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 20 }}>
-              {images.map((_, i) => (
-                <button key={i} onClick={() => goTo(i)} style={{
-                  width: cur === i ? 20 : 6, height: 6, borderRadius: 3, border: 'none',
-                  background: cur === i ? '#D4A0A0' : '#E0D8D0',
-                  transition: 'all 0.3s', cursor: 'pointer', padding: 0,
-                }} />
-              ))}
-            </div>
+            {images.length > 9 && !expanded && (
+              <button type="button" onClick={() => setExpanded(true)} style={{
+                display: 'block', margin: '24px auto 0', padding: '10px 24px',
+                border: '1px solid #D4C8BC', borderRadius: 20, background: 'transparent',
+                color: '#6B5E52', fontSize: 13, cursor: 'pointer',
+              }}>더보기</button>
+            )}
           </>
         )}
 
@@ -230,6 +217,9 @@ export default function GallerySection() {
             onClick={e => e.stopPropagation()}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            onPointerDown={onModalPointerDown}
+            onPointerUp={onModalPointerUp}
+            onPointerCancel={() => { mouseStartX.current = null }}
             style={{
               position: 'relative',
               width: 'min(92vw, 500px)',
@@ -238,11 +228,13 @@ export default function GallerySection() {
               overflow: 'hidden',
               animation: 'modalSlideUp 0.25s ease',
               boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
+              userSelect: 'none',
             }}
           >
             <Image
               src={images[modalIdx]}
               alt={`웨딩 사진 ${modalIdx + 1}`}
+              draggable={false}
               fill
               style={{ objectFit: 'contain' }}
               sizes="92vw"

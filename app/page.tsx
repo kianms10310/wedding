@@ -1,10 +1,12 @@
 import HeroSection from './components/HeroSection'
 import CoupleSection from './components/CoupleSection'
-import GallerySection from './components/GallerySection'
 import CalendarSection from './components/CalendarSection'
+import GallerySection from './components/GallerySection'
+import NoticeSection from './components/NoticeSection'
 import LocationSection from './components/LocationSection'
 import RsvpSection from './components/RsvpSection'
-import GuestbookSection from './components/GuestbookSection'
+import AccountSection from './components/AccountSection'
+// import GuestbookSection from './components/GuestbookSection'
 import FooterSection from './components/FooterSection'
 
 export default function Home() {
@@ -19,12 +21,14 @@ export default function Home() {
     }}>
       <HeroSection />
       <CoupleSection />
-      <GallerySection />
       <CalendarSection />
+      <GallerySection />
+      <NoticeSection />
       <LocationSection naverMapId={process.env.NAVER_MAP_CLIENT_ID ?? null} />
+      {/* <GuestbookSection /> */}
       <RsvpSection />
-      <GuestbookSection />
-      <FooterSection />
+      <AccountSection />
+      <FooterSection kakaoKey={process.env.KAKAO_JAVASCRIPT_KEY ?? null} />
     </div>
   )
 }
