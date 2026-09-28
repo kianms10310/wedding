@@ -10,6 +10,7 @@ cloudinary.config({
 export async function GET() {
   const PUBLIC_IDS = [
     'wedding1',
+    'KakaoTalk_20260928_161605_kksaxi',
     'wedding1',
     'wedding1',
     'wedding1',
@@ -17,9 +18,8 @@ export async function GET() {
     'wedding1',
     'wedding1',
     'wedding1',
-    'wedding1',
-    'wedding1',
-    'wedding1'
+    'KakaoTalk_20260928_161605_kksaxi',
+    'KakaoTalk_20260928_161605_kksaxi1'
   ]
 
   const signedUrls = PUBLIC_IDS.map((publicId) =>
