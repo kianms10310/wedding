@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Script from 'next/script'
 
-const imageUrl = 'https://res.cloudinary.com/dhtvrg2js/image/upload/c_fill,f_jpg,g_auto,h_630,q_auto,w_1200/v1775724820/wedding1.jpg'
+const imageUrl = 'https://res.cloudinary.com/dhtvrg2js/image/upload/KakaoTalk_20260928_161605_kksaxi.jpg'
 
 type KakaoSdk = {
   isInitialized: () => boolean
@@ -28,6 +28,8 @@ export default function KakaoShareButton({ kakaoKey }: { kakaoKey: string }) {
         title: '진욱 ♥ 한슬 결혼합니다',
         description: '2027년 6월 5일 토요일 오전 11시, 루클라비 수원 라비에벨 홀',
         imageUrl,
+        imageWidth: 1814,
+        imageHeight: 2419,
         link,
       },
       buttons: [{ title: '청첩장 보기', link }],

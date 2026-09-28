@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "진욱 ♥ 한슬의 모바일 청첩장",
     images: [{
-      url: "https://res.cloudinary.com/dhtvrg2js/image/upload/c_fill,f_jpg,g_auto,h_630,q_auto,w_1200/v1775724820/wedding1.jpg",
-      width: 1200,
-      height: 630,
+      url: "https://res.cloudinary.com/dhtvrg2js/image/upload/KakaoTalk_20260928_161605_kksaxi.jpg",
+      width: 1814,
+      height: 2419,
       alt: "진욱과 한슬의 결혼식 청첩장",
     }],
   },
