@@ -127,6 +127,7 @@ export default function GallerySection() {
                   <Image
                     src={url}
                     alt={`웨딩 사진 ${i + 1}`}
+                    unoptimized
                     fill
                     style={{ objectFit: 'cover' }}
                     sizes="(max-width: 480px) 30vw, 140px"
@@ -234,6 +235,7 @@ export default function GallerySection() {
             <Image
               src={images[modalIdx]}
               alt={`웨딩 사진 ${modalIdx + 1}`}
+              unoptimized
               draggable={false}
               fill
               style={{ objectFit: 'contain' }}
@@ -274,7 +276,7 @@ export default function GallerySection() {
                   transition: 'all 0.2s',
                 }}
               >
-                <Image src={url} alt="" fill style={{ objectFit: 'cover' }} sizes="52px" />
+                <Image src={url} alt="" unoptimized fill style={{ objectFit: 'cover' }} sizes="52px" />
               </div>
             ))}
           </div>
