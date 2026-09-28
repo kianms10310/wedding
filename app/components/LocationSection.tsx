@@ -16,7 +16,7 @@ const transports = [
 export default function LocationSection() {
   const { ref, visible } = useScrollFadeIn()
   const [copied, setCopied] = useState(false)
-  const [openT, setOpenT] = useState<string | null>(null)
+  const [openT, setOpenT] = useState<string[]>(() => transports.map(t => t.key))
   const [mapOk, setMapOk] = useState(false)
   const mapRef = useRef<HTMLDivElement>(null)
   const naverMapId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID || null
@@ -93,14 +93,16 @@ export default function LocationSection() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {transports.map((t) => (
           <div key={t.key} style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-            <button onClick={() => setOpenT(openT === t.key ? null : t.key)} style={{
+            <button type="button" aria-expanded={openT.includes(t.key)} onClick={() => setOpenT(current =>
+              current.includes(t.key) ? current.filter(key => key !== t.key) : [...current, t.key]
+            )} style={{
               width: '100%', padding: '14px 16px', border: 'none', cursor: 'pointer', background: 'transparent',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13, color: '#3D3D3D',
             }}>
               <span>{t.icon} {t.label}</span>
-              <span style={{ fontSize: 16, color: '#B8956A', transition: 'transform 0.2s', transform: openT === t.key ? 'rotate(45deg)' : 'none' }}>+</span>
+              <span style={{ fontSize: 16, color: '#B8956A', transition: 'transform 0.2s', transform: openT.includes(t.key) ? 'rotate(45deg)' : 'none' }}>+</span>
             </button>
-            {openT === t.key && (
+            {openT.includes(t.key) && (
               <div style={{ padding: '0 16px 14px', fontSize: 12, color: '#6B6B6B', lineHeight: 1.8, whiteSpace: 'pre-line' }}>{t.text}</div>
             )}
           </div>
