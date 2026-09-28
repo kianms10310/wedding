@@ -203,9 +203,11 @@ export default function GallerySection() {
 
           {/* 이전 버튼 */}
           <button
+            type="button"
+            aria-label="이전 사진"
             onClick={e => { e.stopPropagation(); modalPrev() }}
             style={{
-              position: 'absolute', left: 16,
+              position: 'absolute', left: 16, zIndex: 2,
               width: 44, height: 44, borderRadius: '50%', border: 'none',
               background: 'rgba(255,255,255,0.15)', color: '#fff',
               fontSize: 20, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -246,9 +248,11 @@ export default function GallerySection() {
 
           {/* 다음 버튼 */}
           <button
+            type="button"
+            aria-label="다음 사진"
             onClick={e => { e.stopPropagation(); modalNext() }}
             style={{
-              position: 'absolute', right: 16,
+              position: 'absolute', right: 16, zIndex: 2,
               width: 44, height: 44, borderRadius: '50%', border: 'none',
               background: 'rgba(255,255,255,0.15)', color: '#fff',
               fontSize: 20, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
