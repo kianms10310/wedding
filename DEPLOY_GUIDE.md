@@ -24,7 +24,7 @@ vercel --prod
 또는 GitHub 연동 후 Vercel Dashboard에서 Environment Variables 설정:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
-- `VITE_NAVER_MAP_CLIENT_ID` (선택)
+- `NAVER_MAP_CLIENT_ID` (선택)
 
 ## 기술 스택
 - Vite + React + TypeScript

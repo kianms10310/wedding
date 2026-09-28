@@ -13,13 +13,12 @@ const transports = [
   { key: 'car', label: '자가용', icon: '🚗', text: '< 주차장 안내 >\n* 제1주차장 : KT 남수원지사주차장\n* 제2주차장 : 한화생명 주차장 \n※ 주차 요원의 안내를 받으세요.' },
 ]
 
-export default function LocationSection() {
+export default function LocationSection({ naverMapId }: { naverMapId: string | null }) {
   const { ref, visible } = useScrollFadeIn()
   const [copied, setCopied] = useState(false)
   const [openT, setOpenT] = useState<string[]>(() => transports.map(t => t.key))
   const [mapOk, setMapOk] = useState(false)
   const mapRef = useRef<HTMLDivElement>(null)
-  const naverMapId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID || null
 
   useEffect(() => {
     if (!naverMapId) return

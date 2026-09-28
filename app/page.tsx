@@ -1,4 +1,3 @@
-'use client'
 import HeroSection from './components/HeroSection'
 import CoupleSection from './components/CoupleSection'
 import GallerySection from './components/GallerySection'
@@ -22,7 +21,7 @@ export default function Home() {
       <CoupleSection />
       <GallerySection />
       <CalendarSection />
-      <LocationSection />
+      <LocationSection naverMapId={process.env.NAVER_MAP_CLIENT_ID ?? null} />
       <RsvpSection />
       <GuestbookSection />
       <FooterSection />
